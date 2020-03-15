@@ -10,6 +10,7 @@
 <body>
     <canvas id="canvas"></canvas>
     <button id="brush">Brush</button>
+    <button id="pencil">Pencil</button>
     <button id="rectangle">Rectangle</button>
     <button id="circle">Circle</button>
     <button id="triangle">Triangle</button>
@@ -18,6 +19,14 @@
     <label for="size">
         Size:
         <input type="number" name="size" id="size" min="0" max="100" value="10">
+    </label>
+    <label for="stroke-color">
+        Stroke Color:
+        <input type="color" name="stroke-color" id="stroke-color">
+    </label>
+    <label for="fill-color">
+        Fill Color:
+        <input type="color" name="fill-color" id="fill-color">
     </label>
     <script src="index.js"></script>
 </body>
