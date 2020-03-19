@@ -14,6 +14,8 @@ const fillColor = document.getElementById("fill-color");
 var currentTool = "brush";
 var startX = 0;
 var startY = 0;
+var lastX = 0;
+var lastY = 0;
 var endX = 0;
 var endY = 0;
 
@@ -34,7 +36,10 @@ function draw() {
             context.clearRect(startX, startY, size.value, size.value);
             break;
         case "brush":
-            context.fillRect(startX, startY, size.value, size.value);
+            drawLine(size.value);
+            break;
+        case "pencil":
+            drawLine(1);
             break;
 		default:
 			break;
@@ -43,6 +48,14 @@ function draw() {
 
 function distance() {
     return Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+}
+
+function drawLine(strokeWidth) {
+    context.beginPath();
+    context.moveTo(startX, startY);
+    context.lineTo(endX, endY);
+    context.lineWidth = strokeWidth;
+    context.stroke();
 }
 
 rectangleBtn.addEventListener("click", () => {
@@ -65,6 +78,12 @@ eraserBtn.addEventListener("click", () => {
 
 brushBtn.addEventListener("click", () => {
     currentTool = "brush";
+    startX = 0;
+    startY = 0;
+});
+
+pencilBtn.addEventListener("click", () => {
+    currentTool = "pencil";
     startX = 0;
     startY = 0;
 });
@@ -106,10 +125,12 @@ canvas.addEventListener("mouseup", (e) => {
 });
 
 function drag(e) {
-    if ( ( startX == 0 && startY == 0 ) || ( "eraser" != currentTool && "brush" != currentTool )) {
+    if ( ( "eraser" != currentTool && "brush" != currentTool && "pencil" !== currentTool)) {
         return;
     }
-    startX = e.layerX;
-    startY = e.layerY;
+    startX = endX || e.layerX;
+    startY = endY || e.layerY;
+    endX = e.layerX;
+    endY = e.layerY;
     draw();
 }
